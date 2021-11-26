@@ -121,3 +121,14 @@ textarea{
     width: fit-content;
 
 }
+
+.user{
+    background-color: rgb(100, 182, 237);
+    box-shadow: inset -1px 3px 8px 5px rgb(155, 117, 226);
+    border-radius: 40px;
+    text-align: center;
+    margin: 20px;
+    padding: 10px 50px;
+    font-size: 40px;
+
+}

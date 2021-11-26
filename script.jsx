@@ -118,7 +118,7 @@ function Body (props){
                 
                 <div className="width_20">
                     <h2>Qui est là?</h2>
-                    {props.tableUser.map((elem, key) => <div className="tableau">{elem}</div>)}
+                    {props.tableUser.map((elem, key) => <div className="user">{elem}</div>)}
                 </div>
                 
                 <div className="column width_80">
