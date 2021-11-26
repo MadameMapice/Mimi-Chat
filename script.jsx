@@ -1,7 +1,7 @@
 class Container extends React.Component {
     constructor(props){
         super(props)
-        this.state={login:"",isConnected:false,messEnCours:"", tableauMessage:[]}
+        this.state={login:"",isConnected:false,messEnCours:"", tableauMessage:[], tableUser:[]}
         this.changeLogin=this.changeLogin.bind(this)
         this.changeConnect=this.changeConnect.bind(this)
         this.changeMessage=this.changeMessage.bind(this)
@@ -10,6 +10,7 @@ class Container extends React.Component {
     }
 
     changeLogin(event){
+        
         this.setState({login:event.target.value})
         //event.target.value por las input
         //event.target.cheked por las checkbox 
@@ -23,7 +24,14 @@ class Container extends React.Component {
     changeConnect(){
         if(this.state.isConnected==true){
             this.setState({login:""})
+            this.setState({tableUser:[]})
+            this.setState({tableauMessage:[]})
+
         }
+
+        else{
+            this.setState({tableUser:[...this.state.tableUser,this.state.login]})
+        }       
         this.setState({isConnected:!this.state.isConnected})
         
     }
@@ -39,6 +47,8 @@ class Container extends React.Component {
       
     }
 
+
+
     
 
     render() {
@@ -46,7 +56,7 @@ class Container extends React.Component {
             <div className="conteneur">
                 <Header login={this.state.login} changeLogin={this.changeLogin} isConnected={this.state.isConnected} changeConnect={this.changeConnect}/>
                 <Body isConnected={this.state.isConnected} messEnCours={this.state.messEnCours} changeMessage={this.changeMessage} sendMessage={this.sendMessage} 
-                tableauMessage={this.state.tableauMessage}/>
+                tableauMessage={this.state.tableauMessage} tableUser={this.state.tableUser}/>
 
               
             </div>
@@ -108,6 +118,7 @@ function Body (props){
                 
                 <div className="width_20">
                     <h2>Qui est là?</h2>
+                    {props.tableUser.map((elem, key) => <div className="tableau">{elem}</div>)}
                 </div>
                 
                 <div className="column width_80">
