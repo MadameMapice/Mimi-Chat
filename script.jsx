@@ -6,7 +6,34 @@ class Container extends React.Component {
         this.changeConnect=this.changeConnect.bind(this)
         this.changeMessage=this.changeMessage.bind(this)
         this.sendMessage=this.sendMessage.bind(this)
-    
+
+       
+    }
+    componentDidMount() {
+        this.ws = new WebSocket('ws://localhost:8124/')
+        //this.ws = new WebSocket('wss://ws.jdedev.fr:8124')
+
+        this.ws.onopen = () => {
+
+            console.log("connect ok");
+            this.ws.send(JSON.stringify({mess:"coucou"}))
+
+        }
+        this.ws.onerror = (err) => {
+            console.log(err);
+          }
+          this.ws.onmessage =(mess)=>{
+              let messrecu = JSON.parse(mess.data)
+              console.log(messrecu);
+              if(messrecu.typeTrame=="message"){
+                  this.setState({tableauMessage:[...this.state.tableauMessage,{user:messrecu.from,date:new Date(messrecu.date),message:messrecu.content,me:false}]})
+              }
+
+              else if(messrecu.typeTrame=="lstUser"){
+                  this.setState({tableUser:messrecu.users})
+              }
+
+          }
     }
 
     changeLogin(event){
@@ -26,11 +53,13 @@ class Container extends React.Component {
             this.setState({login:""})
             this.setState({tableUser:[]})
             this.setState({tableauMessage:[]})
+            this.ws.send(JSON.stringify({ type: "", typeTrame: "logOut", nom: this.state.login, id: "0" }))
 
         }
 
         else{
-            this.setState({tableUser:[...this.state.tableUser,this.state.login]})
+            this.setState({tableUser:[...this.state.tableUser,{nom:this.state.login}]})
+            this.ws.send(JSON.stringify({ type: "", typeTrame: "user", nom: this.state.login, id: "0" }))
         }       
         this.setState({isConnected:!this.state.isConnected})
         
@@ -41,16 +70,17 @@ class Container extends React.Component {
         // let tab = JSON.parse(JSON.stringify(this.state.tableauMessage))
         // tab.push({user:this.state.login,date:new Date(),message:this.state.messEnCours})
         // this.setState({tableauMessage:tab})
-        this.setState({tableauMessage:[...this.state.tableauMessage,{user:this.state.login,date:new Date(),message:this.state.messEnCours}]})
+        this.setState({tableauMessage:[...this.state.tableauMessage,{user:this.state.login,date:new Date(),message:this.state.messEnCours,me:true}]})
+
+        this.ws.send(JSON.stringify({ type: "", typeTrame: "message", from: this.state.login, content: this.state.messEnCours, date: new Date() }))
         
         this.setState({messEnCours: ""})
       
+        
+        
     }
 
 
-
-
-    
     render() {
         return (
             <div className="conteneur">
@@ -65,6 +95,10 @@ class Container extends React.Component {
     }
 
 }
+
+   
+
+
 
 function Header (props){
     let affCon
@@ -85,7 +119,7 @@ function Header (props){
 
         <div className="header">
             <div className="titre flex justify">
-                    <h1>MimiChat</h1>
+                    <div className="flex"><h1>MimiChat</h1><i className="fas fa-users"></i></div>
 
                 {affCon}
 
@@ -94,12 +128,15 @@ function Header (props){
     )
 }
 
-/**a voir */
-function DetailMessage(props){
 
+function DetailMessage(props){
+    let me="no"
+    if(props.obj.me){
+        me="si"
+    }
     return(
 
-    <div>
+    <div className={me}>
         <div>
             <div className="message">{props.obj.message}</div>
         </div>
@@ -140,7 +177,7 @@ function Body (props){
                 
                 <div className="width_20">
                     <h2>Qui est là?</h2>
-                    {props.tableUser.map((elem, key) => <div className="user" key={key}>{elem}</div>)}
+                    {props.tableUser.map((elem, key) => <div className="user" key={key}>{elem.nom} <i className="far fa-smile"></i></div>)}
                 </div>
                 
                 <div className="column width_80">

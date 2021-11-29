@@ -37,6 +37,14 @@ h1{
     text-shadow: rgb(155, 117, 226) 1px 0 10px;
 }
 
+.fa-users{
+    color: rgb(100, 182, 237);
+    text-shadow: rgb(155, 117, 226) 1px 0 10px;
+    font-size: 40px;
+    margin: 25px auto;
+    padding-left: 10px;
+}
+
 h2{
     color: rgb(100, 182, 237);
     text-align: center;
@@ -63,6 +71,10 @@ button{
     height: 94vh;
     background-color: rgb(14, 13, 13);
     overflow-y: scroll;
+}
+
+.fa-smile{
+    font-size: 40px;
 }
 
 .width_80{
@@ -138,13 +150,27 @@ textarea{
 }
 
 .user{
-    background-color: rgb(100, 182, 237);
+    background-color: rgb(161, 201, 228);
     box-shadow: inset -1px 3px 8px 5px rgb(155, 117, 226);
     border-radius: 40px;
     text-align: center;
     margin: 20px;
-    padding: 10px 50px;
+    padding: 10px 20px;
     font-size: 40px;
 
 }
 
+
+.no{
+    box-shadow: inset -1px 3px 8px 5px rgb(155, 117, 226);
+    border-radius: 20px;
+    width: 100;
+}
+
+.si{
+    box-shadow: inset -1px 3px 8px 5px rgb(100, 182, 237);
+    border-radius: 20px;
+    width: 100;
+    padding: 5px;
+    margin: 10px;
+}
