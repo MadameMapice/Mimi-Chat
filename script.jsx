@@ -38,10 +38,10 @@ class Container extends React.Component {
 
     sendMessage(event){
         //ajoute message au tableau
-        let tab = JSON.parse(JSON.stringify(this.state.tableauMessage))
-        tab.push(this.state.messEnCours)
-        this.setState({tableauMessage:tab})
-        //this.setState({tableauMessage:[...this.state.tableauMessage,this.state.messEnCours]})
+        // let tab = JSON.parse(JSON.stringify(this.state.tableauMessage))
+        // tab.push({user:this.state.login,date:new Date(),message:this.state.messEnCours})
+        // this.setState({tableauMessage:tab})
+        this.setState({tableauMessage:[...this.state.tableauMessage,{user:this.state.login,date:new Date(),message:this.state.messEnCours}]})
         
         this.setState({messEnCours: ""})
       
@@ -49,15 +49,15 @@ class Container extends React.Component {
 
 
 
-    
 
+    
     render() {
         return (
             <div className="conteneur">
                 <Header login={this.state.login} changeLogin={this.changeLogin} isConnected={this.state.isConnected} changeConnect={this.changeConnect}/>
                 <Body isConnected={this.state.isConnected} messEnCours={this.state.messEnCours} changeMessage={this.changeMessage} sendMessage={this.sendMessage} 
                 tableauMessage={this.state.tableauMessage} tableUser={this.state.tableUser}/>
-
+            
               
             </div>
         )
@@ -77,7 +77,7 @@ function Header (props){
 
     else{
         affCon=<div>
-        <p className="text">Hola {props.login} ! </p>
+        <p className="text">Coucou {props.login} ! </p>
         <button onClick={props.changeConnect}>Log out</button>
         </div>
     }
@@ -91,6 +91,28 @@ function Header (props){
 
             </div>
         </div>
+    )
+}
+
+/**a voir */
+function DetailMessage(props){
+
+    return(
+
+    <div>
+        <div>
+            <div className="message">{props.obj.message}</div>
+        </div>
+        
+        <div className="flex justify">
+            <div className="nom">{props.obj.user}</div>
+            <div className="date">{props.obj.date.toLocaleTimeString()}</div>
+            </div>
+
+        
+
+    </div>
+
     )
 }
 
@@ -118,7 +140,7 @@ function Body (props){
                 
                 <div className="width_20">
                     <h2>Qui est là?</h2>
-                    {props.tableUser.map((elem, key) => <div className="user">{elem}</div>)}
+                    {props.tableUser.map((elem, key) => <div className="user" key={key}>{elem}</div>)}
                 </div>
                 
                 <div className="column width_80">
@@ -126,9 +148,10 @@ function Body (props){
                     
                     <div className="height_70">
                         <div>
-
-                    {props.tableauMessage.map((elem, key) => <div className="tableau">{elem}</div>)}
-                     {/*afficher les messages avec fonction map*/}
+                  
+                    {props.tableauMessage.map((elem, key) => <DetailMessage obj={elem} key={key}></DetailMessage>)}
+                    {/* afficher les messages avec fonction map */}
+               
                         </div>
                     </div>
                     <div className="flex height_30">

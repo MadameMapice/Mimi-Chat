@@ -18,6 +18,8 @@
       
 }
 
+
+
 .column{
     display: flex;
     flex-direction: column; 
@@ -112,13 +114,26 @@ textarea{
 }
 
 
-
-.tableau{
-    background-color: rgb(219, 223, 222);
+.message{
+    background-color: rgb(253, 255, 254);
+    box-shadow: inset -1px 3px 8px 5px rgb(100, 182, 237);
     border-radius: 20px;
     padding: 20px;
-    margin: 20px;
-    width: fit-content;
+    margin: 10px;
+    margin-bottom: 2px;
+    width: 100;
+
+} 
+
+.nom{
+    margin-left: 50px;
+    color: white;
+    
+}
+ 
+.date{
+    margin-right: 50px;
+    color: white;
 
 }
 
@@ -132,3 +147,4 @@ textarea{
     font-size: 40px;
 
 }
+
